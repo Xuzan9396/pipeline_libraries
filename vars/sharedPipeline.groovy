@@ -1,4 +1,4 @@
-def RunBuild(Map params){
+def call(Map params){
     pipeline {
         agent any
         options {
