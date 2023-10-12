@@ -5,15 +5,16 @@ def call(Map params){
             disableConcurrentBuilds()
             timeout(time: 8, unit: 'MINUTES')
         }
-        environment {
-            CRAWLER_API = params.CRAWLER_API
-            CRAWLER_API_GITHUB = params.CRAWLER_API_GITHUB
-            DIR_RUN = params.DIR_RUN
-            CREDENTIALSID = params.CREDENTIALSID
-            VERSION_FILE = params.VERSION_FILE
-            CURL_URL = params.CURL_URL
-            CURL_SLEEP = params.CURL_SLEEP
-        }
+    environment {
+        CRAWLER_API = "${params.CRAWLER_API}"
+        CRAWLER_API_GITHUB = "${params.CRAWLER_API_GITHUB}"
+        DIR_RUN = "${params.DIR_RUN}"
+        CREDENTIALSID = "${params.CREDENTIALSID}"
+        VERSION_FILE = "${params.VERSION_FILE}"
+        CURL_URL = "${params.CURL_URL}"
+        CURL_SLEEP = "${params.CURL_SLEEP}"
+    }
+
 
         stages {
 
