@@ -11,8 +11,8 @@ def call(Map params){
         DIR_RUN = "${params.DIR_RUN}"
         CREDENTIALSID = "${params.CREDENTIALSID}"
         VERSION_FILE = "${params.VERSION_FILE}"
-        CURL_URL = params.CURL_URL ? "${params.CURL_URL}" : ''
-        CURL_SLEEP = params.CURL_SLEEP ? "${params.CURL_SLEEP}" : "0"
+        CURL_URL = "${params.CURL_URL ? params.CURL_URL : ''}"
+        CURL_SLEEP = "${params.CURL_SLEEP ? params.CURL_SLEEP : '0'}"
     }
 
 
