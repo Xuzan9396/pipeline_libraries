@@ -113,13 +113,12 @@ def call(Map params){
 
             stage('验证接口') {
                 steps {
-//                     when {
-//                        expression { CURL_URL != ""  && env.CURL_SLEEP.toInteger() > 0 }
-//                    }
+                    when {
+                       expression { CURL_URL != ""  && env.CURL_SLEEP.toInteger() > 0 }
+                   }
                     script {
-//                         sleep env.CURL_SLEEP.toInteger()
-                        sleep 6
-                        printn("睡眠${env.CURL_SLEEP}s,在验证http!")
+                        sleep env.CURL_SLEEP.toInteger()
+                        println("睡眠${env.CURL_SLEEP}s,在验证http!")
                         sh """
                             status_code=\$(curl -o /dev/null -s -w "%{http_code}" ${CURL_URL})
                             if [ "\$status_code" != "200" ]; then
