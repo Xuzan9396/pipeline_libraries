@@ -114,7 +114,7 @@ def call(Map params){
             stage('验证接口') {
                 steps {
                     when {
-                       expression { CURL_URL != ""  && env.CURL_SLEEP as Integer > 0 }
+                       expression { CURL_URL != ""  && env.CURL_SLEEP.toInteger() > 0 }
                    }
                     script {
                         printn("睡眠${env.CURL_SLEEP}s,在验证http!")
