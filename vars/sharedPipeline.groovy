@@ -11,8 +11,8 @@ def call(Map params){
         DIR_RUN = "${params.DIR_RUN}"
         CREDENTIALSID = "${params.CREDENTIALSID}"
         VERSION_FILE = "${params.VERSION_FILE}"
-        CURL_URL = "${params.CURL_URL}"
-        CURL_SLEEP = "${params.CURL_SLEEP}"
+        CURL_URL = params.CURL_URL ? "${params.CURL_URL}" : ''
+        CURL_SLEEP = params.CURL_SLEEP ? "${params.CURL_SLEEP}" : "0"
     }
 
 
@@ -113,11 +113,11 @@ def call(Map params){
 
             stage('验证接口') {
                 steps {
-//                     when {
-//                        expression { env.CURL_SLEEP > 0 }
-//                    }
+                    when {
+                       expression { CURL_URL != "" && && env.CURL_SLEEP as Integer > 0 }
+                   }
                     script {
-                        sleep 6
+                        printn("睡眠${env.CURL_SLEEP}s,在验证http!")
                         sh """
                             status_code=\$(curl -o /dev/null -s -w "%{http_code}" ${CURL_URL})
                             if [ "\$status_code" != "200" ]; then
