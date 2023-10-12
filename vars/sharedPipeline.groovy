@@ -120,8 +120,9 @@ def call(Map params){
                     script {
                         sleep env.CURL_SLEEP.toInteger()
                         println("睡眠${env.CURL_SLEEP}s,在验证http!")
+                        // -k 禁用证书验证
                         sh """
-                            status_code=\$(curl -o /dev/null -s -w "%{http_code}" ${CURL_URL})
+                            status_code=\$(curl -k -o /dev/null -s -w "%{http_code}" ${CURL_URL})
                             if [ "\$status_code" != "200" ]; then
                                 echo "API check failed! Received status code: \$status_code"
                                 exit 1
