@@ -97,7 +97,12 @@ def call(Map params){
                 }
                 steps {
                     script {
-                        sh 'CGO_ENABLED=0 GOPROXY=https://goproxy.cn,direct GOOS=linux GOARCH=amd64 go build -x  -ldflags "-s -w" -o ./widgets_api ./main.go'
+                     sh '''
+                       export GOPROXY=https://goproxy.cn,direct
+                       /usr/local/go/bin/go mod tidy
+                       CGO_ENABLED=0 GOOS=linux GOARCH=amd64 /usr/local/go/bin/go build -x -ldflags "-s -w" -o ./widgets_api ./main.go
+                     '''
+
                     }
                 }
             }
