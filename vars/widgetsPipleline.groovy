@@ -110,7 +110,7 @@ def call(Map params){
             stage('登录服务器发布') {
                 steps {
                     script {
-                        sh '"${DIR_RUN} ${VERSION}"'
+                       sh(script: "${DIR_RUN} ${VERSION}")
                     }
                 }
             }
