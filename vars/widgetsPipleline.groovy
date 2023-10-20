@@ -111,7 +111,7 @@ def call(Map params){
                 steps {
                     script {
 //                         sh 'ssh  target "${DIR_RUN} ${VERSION}"'
-                        sh "${DIR_RUN} ${VERSION}"
+                        sh '"${DIR_RUN} ${VERSION}"'
                     }
                 }
             }
