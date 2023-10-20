@@ -110,7 +110,6 @@ def call(Map params){
             stage('登录服务器发布') {
                 steps {
                     script {
-//                         sh 'ssh  target "${DIR_RUN} ${VERSION}"'
                         sh '"${DIR_RUN} ${VERSION}"'
                     }
                 }
