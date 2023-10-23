@@ -156,7 +156,7 @@ def call(Map params){
                     def projectName = sh(script: "basename `git rev-parse --show-toplevel`", returnStdout: true).trim()
                     def messageToSend = "${projectName}: ${VERSION} ${env.CommitMessage} commit_id: ${env.GIT_COMMIT}"
                     println("messageToSend: ${messageToSend}")
-                    sh "ssh target '/home/ec2-user/data/docker/tg.sh \"构建成功 ${messageToSend}\"'"
+                    sh "ssh target '/home/ec2-user/data/docker/services/tg.sh \"构建成功 ${messageToSend}\"'"
                 }
             }
             failure {
@@ -165,7 +165,7 @@ def call(Map params){
                     currentBuild.description = "构建失败！"
                     def projectName = sh(script: "basename `git rev-parse --show-toplevel`", returnStdout: true).trim()
                     def messageToSend = "${projectName}: ${VERSION} ${env.CommitMessage}"
-                    sh "ssh target '/home/ec2-user/data/docker/tg.sh \"构建失败 ${messageToSend}\"'"
+                    sh "ssh target '/home/ec2-user/data/docker/services/tg.sh \"构建失败 ${messageToSend}\"'"
                 }
             }
             aborted {
