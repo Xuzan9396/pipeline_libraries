@@ -59,7 +59,8 @@ stage('切换分支') {
             // 尝试获取当前分支名
             def branchName = ''
             try {
-                branchName = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+               branchName = env.GIT_BRANCH.split('/')[-1]
+
             } catch(Exception e) {
                 echo "Error getting branch name: ${e.getMessage()}"
                 currentBuild.result = 'ABORTED'
