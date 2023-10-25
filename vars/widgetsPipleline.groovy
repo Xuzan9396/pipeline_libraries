@@ -53,14 +53,36 @@ def call(Map params){
                 }
             }
 
-            stage('切换main分支') {
+            stage('切换分支') {
                 steps {
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: '*/main']],
-                        extensions: [],
-                        userRemoteConfigs: [[url: "git@github.com:Xuzan9396/${CRAWLER_API_GITHUB}.git", credentialsId: "${CREDENTIALSID}"]]
-                    ])
+                    script {
+                       // 获取当前分支名
+                       def branchName = env.BRANCH_NAME
+
+                       if (branchName == 'test') {
+                           echo "这是test分支"
+                           // 你可以添加切换到test分支的代码
+                            checkout([
+                              $class: 'GitSCM',
+                              branches: [[name: '*/test']],
+                              extensions: [],
+                              userRemoteConfigs: [[url: "git@github.com:Xuzan9396/${CRAWLER_API_GITHUB}.git", credentialsId: "${CREDENTIALSID}"]]
+                          ])
+                       } else if (branchName == 'main') {
+                           echo "这是main分支"
+                           checkout([
+                               $class: 'GitSCM',
+                               branches: [[name: '*/main']],
+                               extensions: [],
+                               userRemoteConfigs: [[url: "git@github.com:Xuzan9396/${CRAWLER_API_GITHUB}.git", credentialsId: "${CREDENTIALSID}"]]
+                           ])
+                       } else {
+                           echo "未知分支：${branchName}"
+
+                           currentBuild.result = 'ABORTED'
+                           error("未知分支：${branchName}")
+                       }
+                   }
                 }
             }
 
