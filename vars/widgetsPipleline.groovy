@@ -133,7 +133,7 @@ def call(Map params){
                 steps {
                     script {
 //                         sh '"${DIR_RUN} ${VERSION}"'
-                       sh(script: "${DIR_RUN} ${VERSION}")
+                       sh(script: "${DIR_RUN} ${env.BRANCH_NAME} ${VERSION}")
 
                     }
                 }
