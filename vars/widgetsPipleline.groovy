@@ -57,7 +57,7 @@ def call(Map params){
                 steps {
                     script {
                        // 获取当前分支名
-                       def branchName = env.BRANCH_NAME
+                       def branchName = env.BranchName
 
                        if (branchName == 'test') {
                            echo "这是test分支"
@@ -133,7 +133,7 @@ def call(Map params){
                 steps {
                     script {
 //                         sh '"${DIR_RUN} ${VERSION}"'
-                       sh(script: "${DIR_RUN} ${env.BRANCH_NAME} ${VERSION}")
+                       sh(script: "${DIR_RUN} ${env.BranchName} ${VERSION}")
 
                     }
                 }
