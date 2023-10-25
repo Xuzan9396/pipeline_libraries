@@ -53,38 +53,35 @@ def call(Map params){
                 }
             }
 
-            stage('切换分支') {
-                steps {
-                    script {
-                       // 获取当前分支名
-                       def branchName = env.BranchName
-
-                       if (branchName == 'test') {
-                           echo "这是test分支"
-                           // 你可以添加切换到test分支的代码
-                            checkout([
-                              $class: 'GitSCM',
-                              branches: [[name: '*/test']],
-                              extensions: [],
-                              userRemoteConfigs: [[url: "git@github.com:Xuzan9396/${CRAWLER_API_GITHUB}.git", credentialsId: "${CREDENTIALSID}"]]
-                          ])
-                       } else if (branchName == 'main') {
-                           echo "这是main分支"
-                           checkout([
-                               $class: 'GitSCM',
-                               branches: [[name: '*/main']],
-                               extensions: [],
-                               userRemoteConfigs: [[url: "git@github.com:Xuzan9396/${CRAWLER_API_GITHUB}.git", credentialsId: "${CREDENTIALSID}"]]
-                           ])
-                       } else {
-                           echo "未知分支：${branchName}"
-
-                           currentBuild.result = 'ABORTED'
-                           error("未知分支：${branchName}")
-                       }
-                   }
-                }
+stage('切换分支') {
+    steps {
+        script {
+            // 尝试获取当前分支名
+            def branchName = ''
+            try {
+                branchName = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+            } catch(Exception e) {
+                echo "Error getting branch name: ${e.getMessage()}"
+                currentBuild.result = 'ABORTED'
+                error("Failed to get branch name.")
             }
+
+            env.BRANCHNAME = branchName
+
+            if (branchName == 'test') {
+                echo "这是test分支"
+                // 如果需要，可以在这里检出
+            } else if (branchName == 'main') {
+                echo "这是main分支"
+                // 如果需要，可以在这里检出
+            } else {
+                echo "未知分支：${branchName}"
+                currentBuild.result = 'ABORTED'
+                error("未知分支：${branchName}")
+            }
+        }
+    }
+}
 
             stage('读取版本号——gitlog信息') {
                 steps {
@@ -133,7 +130,7 @@ def call(Map params){
                 steps {
                     script {
 //                         sh '"${DIR_RUN} ${VERSION}"'
-                       sh(script: "${DIR_RUN} ${env.BranchName} ${VERSION}")
+                       sh(script: "${DIR_RUN} ${env.BRANCHNAME} ${VERSION}")
 
                     }
                 }
