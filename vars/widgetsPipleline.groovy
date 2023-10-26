@@ -74,6 +74,7 @@ def call(Map params){
             stage('开始计算版本:') {
                 steps {
                     script {
+                        println("开始计算版本BRANCHNAME: ${env.BRANCHNAME}")
                         env.VERSION_FILE = env.BRANCHNAME + "_" + env.VERSION_FILE
                         println("VERSION_FILE: ${env.VERSION_FILE}")
                         if (fileExists(env.VERSION_FILE)) {
