@@ -75,6 +75,7 @@ def call(Map params){
                 steps {
                     script {
                         env.VERSION_FILE = env.BRANCHNAME + "_" + env.VERSION_FILE
+                        println("VERSION_FILE: ${env.VERSION_FILE}")
                         if (fileExists(env.VERSION_FILE)) {
                             def versions = readFile(file: env.VERSION_FILE).trim().split("\n")
                             env.LATEST_VERSION = versions[-1]
