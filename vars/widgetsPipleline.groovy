@@ -55,7 +55,7 @@ def call(Map params){
                         }
 
                         env.BRANCHNAME = branchName
-
+                        println("现在使用的是BRANCHNAME: ${env.BRANCHNAME}")
                         if (branchName == 'test') {
                             echo "这是test分支"
                             // 如果需要，可以在这里检出
