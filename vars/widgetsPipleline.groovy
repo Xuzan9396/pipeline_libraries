@@ -74,11 +74,10 @@ def call(Map params){
             stage('开始计算版本:') {
                 steps {
                     script {
-                        println("开始计算版本BRANCHNAME: ${env.BRANCHNAME}")
-                        env.VERSION_FILE = env.BRANCHNAME + "_" + env.VERSION_FILE
-                        println("VERSION_FILE: ${env.VERSION_FILE}")
-                        if (fileExists(env.VERSION_FILE)) {
-                            def versions = readFile(file: env.VERSION_FILE).trim().split("\n")
+                        env.BRANCH_FILE_VERSION = env.BRANCHNAME + "_" + env.VERSION_FILE
+                        println("VERSION_FILE: ${env.BRANCH_FILE_VERSION}")
+                        if (fileExists(env.BRANCH_FILE_VERSION)) {
+                            def versions = readFile(file: env.BRANCH_FILE_VERSION).trim().split("\n")
                             env.LATEST_VERSION = versions[-1]
                             env.PREVIOUS_VERSION = versions.size() > 1 ? versions[-2] : "v0.0.1"
                         } else {
@@ -172,10 +171,10 @@ def call(Map params){
                 echo 'Build was successful!'
                 script {
                     if (env.OPERATION == "deploy") {
-                        if (fileExists(env.VERSION_FILE) && sh(script: "tail -c 1 ${env.VERSION_FILE} | wc -l", returnStdout: true).trim() != "1") {
-                            sh "echo '' >> ${env.VERSION_FILE}"
+                        if (fileExists(env.BRANCH_FILE_VERSION) && sh(script: "tail -c 1 ${env.BRANCH_FILE_VERSION} | wc -l", returnStdout: true).trim() != "1") {
+                            sh "echo '' >> ${env.BRANCH_FILE_VERSION}"
                         }
-                        sh "echo '${VERSION}' >> ${env.VERSION_FILE}"
+                        sh "echo '${VERSION}' >> ${env.BRANCH_FILE_VERSION}"
                     }
                     currentBuild.description = "构建成功！"
                     def projectName = sh(script: "basename `git rev-parse --show-toplevel`", returnStdout: true).trim()
