@@ -15,7 +15,6 @@ def call(Map params){
         CURL_SLEEP = "${params.CURL_SLEEP ? params.CURL_SLEEP : '0'}"
     }
 
-
         stages {
 
             stage('判断构建方式:') {
@@ -88,7 +87,7 @@ def call(Map params){
                 }
             }
 
-            stage('读取版本号——gitlog信息') {
+            stage('读取git commit信息') {
                 steps {
                     script {
                         if (env.IS_MANUAL_TRIGGER == "true") {
@@ -104,6 +103,9 @@ def call(Map params){
                             } else if (lastCommitMessage.startsWith("#pre")) {
                                 env.OPERATION = "rollback"
                                 env.VERSION = env.PREVIOUS_VERSION
+                            }else if (lastCommitMessage.startsWith("#conf")){
+                                env.OPERATION = "conf"
+                                env.VERSION = "v0.0.${env.BUILD_NUMBER}"
                             } else {
                                 currentBuild.result = 'ABORTED'
                                 error("Invalid commit message. Either start with #pro for deploy or #pre for rollback!")
@@ -134,8 +136,7 @@ def call(Map params){
             stage('登录服务器发布') {
                 steps {
                     script {
-//                         sh '"${DIR_RUN} ${VERSION}"'
-                       sh(script: "${DIR_RUN} ${env.BRANCHNAME} ${VERSION}")
+                       sh(script: "${DIR_RUN} ${env.BRANCHNAME} ${VERSION} ${env.OPERATION}")
 
                     }
                 }
