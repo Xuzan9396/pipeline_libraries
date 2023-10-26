@@ -38,9 +38,43 @@ def call(Map params){
                 }
             }
 
+
+
+            stage('切换分支') {
+                steps {
+                    script {
+                        // 尝试获取当前分支名
+                        def branchName = ''
+                        try {
+                           branchName = env.GIT_BRANCH.split('/')[-1]
+
+                        } catch(Exception e) {
+                            echo "Error getting branch name: ${e.getMessage()}"
+                            currentBuild.result = 'ABORTED'
+                            error("Failed to get branch name.")
+                        }
+
+                        env.BRANCHNAME = branchName
+
+                        if (branchName == 'test') {
+                            echo "这是test分支"
+                            // 如果需要，可以在这里检出
+                        } else if (branchName == 'main') {
+                            echo "这是main分支"
+                            // 如果需要，可以在这里检出
+                        } else {
+                            echo "未知分支：${branchName}"
+                            currentBuild.result = 'ABORTED'
+                            error("未知分支：${branchName}")
+                        }
+                    }
+                }
+            }
+
             stage('开始计算版本:') {
                 steps {
                     script {
+                        env.VERSION_FILE = env.BRANCHNAME + "_" + env.VERSION_FILE
                         if (fileExists(env.VERSION_FILE)) {
                             def versions = readFile(file: env.VERSION_FILE).trim().split("\n")
                             env.LATEST_VERSION = versions[-1]
@@ -52,37 +86,6 @@ def call(Map params){
                     }
                 }
             }
-
-stage('切换分支') {
-    steps {
-        script {
-            // 尝试获取当前分支名
-            def branchName = ''
-            try {
-               branchName = env.GIT_BRANCH.split('/')[-1]
-
-            } catch(Exception e) {
-                echo "Error getting branch name: ${e.getMessage()}"
-                currentBuild.result = 'ABORTED'
-                error("Failed to get branch name.")
-            }
-
-            env.BRANCHNAME = branchName
-
-            if (branchName == 'test') {
-                echo "这是test分支"
-                // 如果需要，可以在这里检出
-            } else if (branchName == 'main') {
-                echo "这是main分支"
-                // 如果需要，可以在这里检出
-            } else {
-                echo "未知分支：${branchName}"
-                currentBuild.result = 'ABORTED'
-                error("未知分支：${branchName}")
-            }
-        }
-    }
-}
 
             stage('读取版本号——gitlog信息') {
                 steps {
