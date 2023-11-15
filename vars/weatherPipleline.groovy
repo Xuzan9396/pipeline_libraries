@@ -6,8 +6,8 @@ def call(Map params){
             timeout(time: 8, unit: 'MINUTES')
         }
     environment {
-        CRAWLER_API = "${params.CRAWLER_API}"
-        CRAWLER_API_GITHUB = "${params.CRAWLER_API_GITHUB}"
+//         CRAWLER_API = "${params.CRAWLER_API}"
+//         CRAWLER_API_GITHUB = "${params.CRAWLER_API_GITHUB}"
         DIR_RUN = "${params.DIR_RUN}"
         CREDENTIALSID = "${params.CREDENTIALSID}"
         VERSION_FILE = "${params.VERSION_FILE}"
@@ -23,6 +23,8 @@ def call(Map params){
 
                           CAUSE = "${currentBuild.getBuildCauses()[0].shortDescription}"
                           println("构建方式 ${CAUSE}")
+    //                       echo " BUILD_USER: ${env.BUILD_USER}"
+    //                       echo "Build user ID: ${env.BUILD_USER_ID}"
                            if (CAUSE.toLowerCase().contains("github"))  {
                              env.IS_MANUAL_TRIGGER = "false"
                              echo "自动push构建！"
@@ -124,7 +126,7 @@ def call(Map params){
                      sh '''
                        export GOPROXY=https://goproxy.cn,direct
                        /usr/local/go/bin/go mod tidy
-                       CGO_ENABLED=0 GOOS=linux GOARCH=amd64 /usr/local/go/bin/go build -x -ldflags "-s -w" -o ./widgets_api ./main.go
+                       CGO_ENABLED=0 GOOS=linux GOARCH=amd64 /usr/local/go/bin/go build -x -ldflags "-s -w" -o ./weather_api ./main.go
                      '''
 
                     }
