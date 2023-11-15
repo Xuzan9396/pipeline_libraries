@@ -126,7 +126,7 @@ def call(Map params){
                      sh '''
                        export GOPROXY=https://goproxy.cn,direct
                        /usr/local/go/bin/go mod tidy
-                       CGO_ENABLED=0 GOOS=linux GOARCH=amd64 /usr/local/go/bin/go build -x -ldflags "-s -w" -o ./weather_api ./main.go
+                       CGO_ENABLED=1 GOOS=linux GOARCH=amd64 /usr/local/go/bin/go build -x -ldflags "-s -w" -o ./weather_api ./main.go
                      '''
 
                     }
