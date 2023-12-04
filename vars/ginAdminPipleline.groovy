@@ -6,7 +6,7 @@ def call(Map params){
             timeout(time: 8, unit: 'MINUTES')
         }
     environment {
-        DIR_RUN = "${params.DIR_RUN}"
+
         CREDENTIALSID = "${params.CREDENTIALSID}"
         VERSION_FILE = "${params.VERSION_FILE}"
         CURL_URL = "${params.CURL_URL ? params.CURL_URL : ''}"
@@ -96,12 +96,18 @@ def call(Map params){
                             if (lastCommitMessage.startsWith("#pro")) {
                                 env.OPERATION = "deploy"
                                 env.VERSION = "v0.0.${env.BUILD_NUMBER}"
+                                env.DIR_RUN = "cd /root/.jenkins/workspace/gin-vue-admin/server && ./pro_build.sh"
+
                             } else if (lastCommitMessage.startsWith("web#pro")) {
                                 env.OPERATION = "deploy_web"
                                 env.VERSION = "v0.0.${env.BUILD_NUMBER}"
+                                env.DIR_RUN = "cd /root/.jenkins/workspace/gin-vue-admin/web && ./pro_build.sh"
+
                             }else if (lastCommitMessage.startsWith("#conf")){
                                 env.OPERATION = "conf"
                                 env.VERSION = "v0.0.${env.BUILD_NUMBER}"
+                                env.DIR_RUN = "cd /root/.jenkins/workspace/gin-vue-admin/server && ./pro_build.sh"
+
                             } else {
                                 currentBuild.result = 'ABORTED'
                                 error("Invalid commit message. Either start with #pro for deploy or #pre for rollback!")
