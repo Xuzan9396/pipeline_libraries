@@ -120,8 +120,9 @@ def call(Map params){
                 steps {
                     script {
                      sh '''
+                       export PATH=/usr/local/node-v20.10.0/bin:$PATH
                        cd ./web
-                       /usr/local/node-v20.10.0/bin/npm run build
+                       npm run build
                      '''
 
                     }
