@@ -121,7 +121,7 @@ def call(Map params){
                     script {
                      sh '''
                        cd ./web
-                       npm run build
+                       /usr/local/node-v20.10.0/bin/npm run build
                      '''
 
                     }
