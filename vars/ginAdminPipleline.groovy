@@ -115,16 +115,25 @@ def call(Map params){
 
             stage('Build 程序') {
                 when {
-                    expression { env.OPERATION == "deploy" }
+                    expression { env.OPERATION in ["deploy", "deploy_web"] }
                 }
                 steps {
                     script {
-                     sh '''
-                       cd ./server
-                       export GOPROXY=https://goproxy.cn,direct
-                       /usr/local/go/bin/go mod tidy
-                       CGO_ENABLED=0 GOOS=linux GOARCH=amd64 /usr/local/go/bin/go build -x -ldflags "-s -w" -o ./local_news_gva ./main.go
-                     '''
+                    if (env.OPERATION == "deploy") {
+                        sh '''
+                           cd ./server
+                           export GOPROXY=https://goproxy.cn,direct
+                           /usr/local/go/bin/go mod tidy
+                           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 /usr/local/go/bin/go build -x -ldflags "-s -w" -o ./local_news_gva ./main.go
+                         '''
+                    if (env.OPERATION == "deploy_web") {
+                       sh '''
+                            export PATH=/usr/local/node-v20.10.0/bin:$PATH
+                            cd ./web
+                            npm install -g vite
+                            npm run build
+                        '''
+                    }
 
                     }
                 }
