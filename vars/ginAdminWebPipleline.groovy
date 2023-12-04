@@ -122,6 +122,7 @@ def call(Map params){
                      sh '''
                        export PATH=/usr/local/node-v20.10.0/bin:$PATH
                        cd ./web
+                       npm install -g vite
                        npm run build
                      '''
 
