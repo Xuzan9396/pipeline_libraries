@@ -96,9 +96,9 @@ def call(Map params){
                             if (lastCommitMessage.startsWith("#pro")) {
                                 env.OPERATION = "deploy"
                                 env.VERSION = "v0.0.${env.BUILD_NUMBER}"
-                            } else if (lastCommitMessage.startsWith("#pre")) {
-                                env.OPERATION = "rollback"
-                                env.VERSION = env.PREVIOUS_VERSION
+                            } else if (lastCommitMessage.startsWith("web#pro")) {
+                                env.OPERATION = "deploy_web"
+                                env.VERSION = "v0.0.${env.BUILD_NUMBER}"
                             }else if (lastCommitMessage.startsWith("#conf")){
                                 env.OPERATION = "conf"
                                 env.VERSION = "v0.0.${env.BUILD_NUMBER}"
