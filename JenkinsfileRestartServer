@@ -1,0 +1,8 @@
+#!groovy
+
+@Library('pipeline_libraries') _
+
+def tools = new org.devops.tools()
+
+// 测试
+restartServicePostPipeline()

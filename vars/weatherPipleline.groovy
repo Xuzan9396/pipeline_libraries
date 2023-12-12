@@ -16,11 +16,9 @@ def call(Map params){
     }
 
         stages {
-
             stage('判断构建方式:') {
                 steps {
                     script {
-
                           CAUSE = "${currentBuild.getBuildCauses()[0].shortDescription}"
                           println("构建方式 ${CAUSE}")
     //                       echo " BUILD_USER: ${env.BUILD_USER}"
@@ -203,5 +201,4 @@ def call(Map params){
             }
         }
     }
-
 }
