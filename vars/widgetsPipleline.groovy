@@ -3,7 +3,7 @@ def call(Map params){
         agent any
         options {
             disableConcurrentBuilds()
-            timeout(time: 8, unit: 'MINUTES')
+            timeout(time: 5, unit: 'MINUTES')
         }
     environment {
         CRAWLER_API = "${params.CRAWLER_API}"
