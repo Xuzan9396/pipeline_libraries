@@ -16,6 +16,22 @@ def call(Map params){
     }
 
         stages {
+
+            stage('Print Environment Variables') {
+                steps {
+                    script {
+                        // 打印环境变量
+                        sh 'printenv'
+
+                        // 打印当前用户
+                        sh 'whoami'
+
+                        // 打印当前工作目录
+                        sh 'pwd'
+                    }
+                }
+            }
+
             stage('判断构建方式:') {
                 steps {
                     script {
