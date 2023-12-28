@@ -159,12 +159,12 @@ def call(Map params){
             }
 
 
-            stage('重启服务') {
-                steps {
-                    sh 'cd /home/ec2-user/data/weather/ && JENKINS_NODE_COOKIE=dontKillMe ./admin.sh restart'
-
-                }
-            }
+//            stage('重启服务') {
+//                steps {
+//                    sh 'cd /home/ec2-user/data/weather/ && JENKINS_NODE_COOKIE=dontKillMe ./admin.sh restart'
+//
+//                }
+//            }
 
             stage('验证接口') {
                 when {
