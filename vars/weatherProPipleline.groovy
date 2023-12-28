@@ -152,7 +152,7 @@ def call(Map params){
             stage('登录服务器发布') {
                 steps {
                     script {
-                       sh(script: "${DIR_RUN} ${env.BRANCHNAME} ${VERSION} ${env.OPERATION}")
+                       sh(script: "JENKINS_NODE_COOKIE=dontKillMe ${DIR_RUN} ${env.BRANCHNAME} ${VERSION} ${env.OPERATION}")
 
                     }
                 }
