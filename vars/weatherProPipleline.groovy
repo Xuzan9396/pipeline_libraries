@@ -17,20 +17,20 @@ def call(Map params){
 
         stages {
 
-            stage('Print Environment Variables') {
-                steps {
-                    script {
-                        // 打印环境变量
-                        sh 'printenv'
-
-                        // 打印当前用户
-                        sh 'whoami'
-
-                        // 打印当前工作目录
-                        sh 'pwd'
-                    }
-                }
-            }
+//            stage('Print Environment Variables') {
+//                steps {
+//                    script {
+//                        // 打印环境变量
+//                        sh 'printenv'
+//
+//                        // 打印当前用户
+//                        sh 'whoami'
+//
+//                        // 打印当前工作目录
+//                        sh 'pwd'
+//                    }
+//                }
+//            }
 
             stage('判断构建方式:') {
                 steps {
@@ -149,12 +149,20 @@ def call(Map params){
                 }
             }
 
-            stage('登录服务器发布') {
+            stage('文件解压缩') {
                 steps {
                     script {
                        sh(script: "${DIR_RUN} ${env.BRANCHNAME} ${VERSION} ${env.OPERATION}")
 
                     }
+                }
+            }
+
+
+            stage('Deliver') {
+                steps {
+                    sh 'cd /home/ec2-user/data/weather/ && ./admin.sh restart'
+
                 }
             }
 
