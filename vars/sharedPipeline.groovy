@@ -108,7 +108,9 @@ def call(Map params){
             stage('登录服务器发布') {
                 steps {
                     script {
-                        sh 'ssh -t target "${DIR_RUN} ${VERSION}"'
+                       // sh 'ssh -t target "${DIR_RUN} ${VERSION}"'
+                        sh 'ssh -t -o ProxyCommand="ssh -q -W %h:%p -i /data/.ssh/bastonhost_16.162.0.6.pem xuzan@16.162.0.6" -i /data/.ssh/news_app.pem ec2-user@52.44.14.113 "${DIR_RUN} ${VERSION}"'
+
                     }
                 }
             }
