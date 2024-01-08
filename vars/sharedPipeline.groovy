@@ -109,7 +109,7 @@ def call(Map params){
                 steps {
                     script {
                        // sh 'ssh -t target "${DIR_RUN} ${VERSION}"'
-                        sh 'ssh -t -o ProxyCommand="ssh -q -W %h:%p -i /data/.ssh/bastonhost_16.162.0.6.pem xuzan@16.162.0.6" -i /data/.ssh/news_app.pem ec2-user@52.44.14.113 "${DIR_RUN} ${VERSION}"'
+                        sh 'ssh -t -o ProxyCommand="ssh -q -W %h:%p -i /home/ec2-user/data/.ssh/bastonhost_16.162.0.6.pem xuzan@16.162.0.6" -i /home/ec2-user/data/.ssh/news_app.pem ec2-user@52.44.14.113 "${DIR_RUN} ${VERSION}"'
 
                     }
                 }
