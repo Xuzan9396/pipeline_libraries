@@ -99,8 +99,12 @@ def call(Map params){
                     script {
                         sh 'docker build --platform linux/amd64 -t gitxuzan/${CRAWLER_API}:${VERSION} -f Dockerfile_amd64_arm64 .'
                         sh 'docker push gitxuzan/${CRAWLER_API}:${VERSION}'
-                        // 删除无用的镜像
-                        sh 'docker rmi $(docker images -f "dangling=true" -q)'
+                      try {
+                          // 删除无用的镜像
+                          sh 'docker rmi $(docker images -f "dangling=true" -q)'
+                      } catch (Exception e) {
+                          echo "Caught an exception: ${e.getMessage()}"
+                      }
                     }
                 }
             }
