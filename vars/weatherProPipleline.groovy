@@ -207,21 +207,23 @@ def call(Map params){
                     println("messageToSend: ${messageToSend}")
                     sh "/home/ec2-user/data/tg.sh \"构建成功 ${messageToSend}\""
                     //sh "/home/ec2-user/data/email.sh \"构建成功 ${messageToSend}\""
-                }
 
-                mail subject: "'${messageToSend}]' 执行成功",
-                body: """
-                <div id="content">
-                <h1>CI报告</h1>
-                <div id="sum2">
-                <h2>Jenkins 运行结果</h2>
-                <p>${messageToSend}</p>
-                </div>
-                """,
-                charset: 'utf-8',
-                from: "$user_email",
-                mimeType: 'text/html',
-                to: "$user_email"
+                        emailext subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] 执行成功",
+                        body: """
+                        <div id="content">
+                        <h1>CI报告</h1>
+                        <div id="sum2">
+                        <h2>Jenkins 运行结果</h2>
+                        <p>${messageToSend}</p>
+                        </div>
+                        </div>
+                        """,
+                        mimeType: 'text/html',
+                        to: "${user_email}"
+
+            }
+
+
 
             }
             failure {
