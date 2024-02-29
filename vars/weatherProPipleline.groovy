@@ -206,6 +206,7 @@ def call(Map params){
 //                     messageToSend = messageToSend.replaceAll("#", "") // 去除所有的#字符
                     println("messageToSend: ${messageToSend}")
                     sh "/home/ec2-user/data/tg.sh \"构建成功 ${messageToSend}\""
+                    sh "/home/ec2-user/data/email.sh \"构建成功 ${messageToSend}\""
                 }
             }
             failure {
@@ -216,6 +217,7 @@ def call(Map params){
                     def messageToSend = "${projectName}:${env.BRANCHNAME} ${VERSION} ${env.CommitMessage}"
 //                     messageToSend = messageToSend.replaceAll("#", "") // 去除所有的#字符
                     sh "/home/ec2-user/data/tg.sh \"构建失败 ${messageToSend}\""
+                    sh "/home/ec2-user/data/email.sh \"构建失败 ${messageToSend}\""
                 }
             }
             aborted {
