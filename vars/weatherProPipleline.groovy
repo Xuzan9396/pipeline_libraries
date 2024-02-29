@@ -211,11 +211,8 @@ def call(Map params){
                         emailext subject: "${messageToSend} 执行成功",
                         body: """
                         <div id="content">
-                        <h1>CI报告</h1>
-                        <div id="sum2">
                         <h2>Jenkins 运行结果</h2>
-                        <p>${messageToSend}</p>
-                        </div>
+                        <h3>${messageToSend}</h3>
                         </div>
                         """,
                         mimeType: 'text/html',
