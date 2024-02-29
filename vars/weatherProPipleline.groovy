@@ -208,7 +208,7 @@ def call(Map params){
                     sh "/home/ec2-user/data/tg.sh \"构建成功 ${messageToSend}\""
                     //sh "/home/ec2-user/data/email.sh \"构建成功 ${messageToSend}\""
 
-                        emailext subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] 执行成功",
+                        emailext subject: "${env.USER_MY_EMAIL}] 执行成功",
                         body: """
                         <div id="content">
                         <h1>CI报告</h1>
