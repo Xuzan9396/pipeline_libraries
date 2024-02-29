@@ -219,7 +219,7 @@ def call(Map params){
                         </div>
                         """,
                         mimeType: 'text/html',
-                        to: "${env.USER_EMAIL}"
+                        to: "${env.USER_MY_EMAIL}"
 
             }
 
