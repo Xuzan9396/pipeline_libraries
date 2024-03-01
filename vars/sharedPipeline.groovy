@@ -160,6 +160,17 @@ def call(Map params){
                     println("messageToSend: ${messageToSend}")
                     sh "ssh -o ProxyCommand='ssh -q -W %h:%p -i /home/ec2-user/data/.ssh/bastonhost_16.162.0.6.pem xuzan@16.162.0.6' -i /home/ec2-user/data/.ssh/news_app.pem ec2-user@52.44.14.113 '/home/ec2-user/data/docker/services/tg.sh \"构建成功 ${messageToSend}\"'"
 
+                   emailext subject: "执行成功 ${messageToSend}",
+                              body: """
+                              <div id="content">
+                              <h2>Jenkins 运行结果</h2>
+                              <h3>${messageToSend}</h3>
+                              </div>
+                              """,
+                              mimeType: 'text/html',
+                              from: "${env.USER_MY_EMAIL}",
+                              to: "${env.USER_MY_EMAIL}"
+
                 }
             }
             failure {
@@ -171,6 +182,16 @@ def call(Map params){
 //                    sh "ssh target '/home/ec2-user/data/docker/services/tg.sh \"构建失败 ${messageToSend}\"'"
                       sh "ssh -o ProxyCommand='ssh -q -W %h:%p -i /home/ec2-user/data/.ssh/bastonhost_16.162.0.6.pem xuzan@16.162.0.6' -i /home/ec2-user/data/.ssh/news_app.pem ec2-user@52.44.14.113 '/home/ec2-user/data/docker/services/tg.sh \"构建失败 ${messageToSend}\"'"
 
+                    emailext subject: "执行失败 ${messageToSend}",
+                    body: """
+                    <div id="content">
+                    <h2>Jenkins 运行结果</h2>
+                    <h3>${messageToSend}</h3>
+                    </div>
+                    """,
+                    mimeType: 'text/html',
+                    from: "${env.USER_MY_EMAIL}",
+                    to: "${env.USER_MY_EMAIL}"
                 }
             }
             aborted {

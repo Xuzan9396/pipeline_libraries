@@ -206,18 +206,17 @@ def call(Map params){
 //                     messageToSend = messageToSend.replaceAll("#", "") // 去除所有的#字符
                     println("messageToSend: ${messageToSend}")
                     sh "/home/ec2-user/data/tg.sh \"构建成功 ${messageToSend}\""
-                    //sh "/home/ec2-user/data/email.sh \"构建成功 ${messageToSend}\""
 
-                        emailext subject: "${messageToSend} 执行成功",
-                        body: """
-                        <div id="content">
-                        <h2>Jenkins 运行结果</h2>
-                        <h3>${messageToSend}</h3>
-                        </div>
-                        """,
-                        mimeType: 'text/html',
-                        from: "${env.USER_MY_EMAIL}",
-                        to: "${env.USER_MY_EMAIL}"
+                    emailext subject: "执行成功 ${messageToSend}",
+                    body: """
+                    <div id="content">
+                    <h2>Jenkins 运行结果</h2>
+                    <h3>${messageToSend}</h3>
+                    </div>
+                    """,
+                    mimeType: 'text/html',
+                    from: "${env.USER_MY_EMAIL}",
+                    to: "${env.USER_MY_EMAIL}"
 
             }
 
@@ -232,7 +231,16 @@ def call(Map params){
                     def messageToSend = "${projectName}:${env.BRANCHNAME} ${VERSION} ${env.CommitMessage}"
 //                     messageToSend = messageToSend.replaceAll("#", "") // 去除所有的#字符
                     sh "/home/ec2-user/data/tg.sh \"构建失败 ${messageToSend}\""
-                   // sh "/home/ec2-user/data/email.sh \"构建失败 ${messageToSend}\""
+                    emailext subject: "执行失败 ${messageToSend}",
+                    body: """
+                    <div id="content">
+                    <h2>Jenkins 运行结果</h2>
+                    <h3>${messageToSend}</h3>
+                    </div>
+                    """,
+                    mimeType: 'text/html',
+                    from: "${env.USER_MY_EMAIL}",
+                    to: "${env.USER_MY_EMAIL}"
                 }
             }
             aborted {
