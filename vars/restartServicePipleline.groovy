@@ -33,6 +33,7 @@ def call(){
                               if (params.service_env == 'main') {
                                       sh '''
                                          export GOPROXY=https://goproxy.cn,direct
+                                         export GO111MODULE=on
                                          /usr/local/go/bin/go mod tidy
                                          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 /usr/local/go/bin/go build -x -ldflags "-s -w" -o ./weather_api ./main.go
                                        '''

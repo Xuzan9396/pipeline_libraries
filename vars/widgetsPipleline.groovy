@@ -123,6 +123,7 @@ def call(Map params){
                     script {
                      sh '''
                        export GOPROXY=https://goproxy.cn,direct
+                       export GO111MODULE=on
                        export GOROOT=/home/ec2-user/data/go
                        export GOPATH=/home/ec2-user/data/go_path
                        /home/ec2-user/data/go/bin/go mod tidy
