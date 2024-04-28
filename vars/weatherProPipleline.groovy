@@ -137,13 +137,14 @@ def call(Map params){
                 }
                 steps {
                     script {
+                        // go build -ldflags "-X 'main.version=1.0.0' -X 'main.buildTime=$(date)' -s -w"  -o weather_v2_api main.go
                      sh '''
                        export GOPROXY=https://goproxy.cn,direct
                        export GO111MODULE=on
                        export GOROOT=/home/ec2-user/data/go
                        export GOPATH=/home/ec2-user/data/go_path
                        /home/ec2-user/data/go/bin/go mod tidy
-                       CGO_ENABLED=0 GOOS=linux GOARCH=amd64 /home/ec2-user/data/go/bin/go build -x -ldflags "-s -w" -o ./weather_api ./main.go
+                       CGO_ENABLED=0 GOOS=linux GOARCH=amd64 /home/ec2-user/data/go/bin/go build -x -ldflags "-X 'main.version=${env.VERSION}' -X 'main.buildTime=$(date)' -s -w" -o ./weather_api ./main.go
                      '''
 
                     }
