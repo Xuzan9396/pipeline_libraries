@@ -145,7 +145,7 @@ def call(Map params){
                         export GOROOT=/home/ec2-user/data/go
                         export GOPATH=/home/ec2-user/data/go_path
                         /home/ec2-user/data/go/bin/go mod tidy
-                        CGO_ENABLED=0 GOOS=linux GOARCH=amd64 /home/ec2-user/data/go/bin/go build -x -ldflags \"-X 'main.version=${env.VERSION}' -X 'main.buildTime=$(date "+%Y-%m-%d %H:%M:%S")' -s -w\" -o ./weather_api ./main.go
+                        CGO_ENABLED=0 GOOS=linux GOARCH=amd64 /home/ec2-user/data/go/bin/go build -x -ldflags "-X 'main.version=${env.VERSION}' -X 'main.buildTime='$(date '+%Y-%m-%d %H:%M:%S')' -s -w" -o ./weather_api ./main.go
                         """
 
                     }
