@@ -124,7 +124,7 @@ def call(Map params){
                         ]) {
                             echo "开始部署到生产服务器，版本：${VERSION}"
                             sh """
-                                ssh -t -o StrictHostKeyChecking=no \
+                                ssh -o StrictHostKeyChecking=no \
                                     -o UserKnownHostsFile=/dev/null \
                                     -o ProxyCommand="ssh -q -W %h:%p -i \${BASTION_KEY} xuzan@16.162.85.108" \
                                     -i \${TARGET_KEY} ec2-user@52.44.14.113 \
