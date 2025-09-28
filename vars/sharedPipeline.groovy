@@ -112,9 +112,26 @@ def call(Map params){
             stage('登录服务器发布') {
                 steps {
                     script {
-                       // sh 'ssh -t target "${DIR_RUN} ${VERSION}"'
-                        sh 'ssh -t -o ProxyCommand="ssh -q -W %h:%p -i /home/ec2-user/data/.ssh/bastonhost_16.162.0.6.pem xuzan@16.162.0.6" -i /home/ec2-user/data/.ssh/news_app.pem ec2-user@52.44.14.113 "${DIR_RUN} ${VERSION}"'
-
+                        withCredentials([
+                            sshUserPrivateKey(
+                                credentialsId: 'bastion_16.162.85.108',
+                                keyFileVariable: 'BASTION_KEY'
+                            ),
+                            sshUserPrivateKey(
+                                credentialsId: 'news_52.44.14.113',
+                                keyFileVariable: 'TARGET_KEY'
+                            )
+                        ]) {
+                            echo "开始部署到生产服务器，版本：${VERSION}"
+                            sh """
+                                ssh -t -o StrictHostKeyChecking=no \
+                                    -o UserKnownHostsFile=/dev/null \
+                                    -o ProxyCommand="ssh -q -W %h:%p -i \${BASTION_KEY} xuzan@16.162.85.108" \
+                                    -i \${TARGET_KEY} ec2-user@52.44.14.113 \
+                                    '${DIR_RUN} ${VERSION}'
+                            """
+                            echo "部署命令执行完成"
+                        }
                     }
                 }
             }
